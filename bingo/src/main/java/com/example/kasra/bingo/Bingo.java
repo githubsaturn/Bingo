@@ -2,11 +2,11 @@ package com.example.kasra.bingo;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
 import com.example.kasra.bingo.Utils.Logger;
 import com.example.kasra.bingo.Utils.NetUtils;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -29,7 +29,7 @@ public class Bingo
 		return sCustomFunctionMap;
 	}
 
-	private static Map<String, BingoCustomFunction> sCustomFunctionMap = new ArrayMap<>();
+	private static Map<String, BingoCustomFunction> sCustomFunctionMap = new LinkedHashMap<>();
 
 
 	public static void hook(String name, BingoCustomFunction function, String... varNames)
@@ -39,7 +39,7 @@ public class Bingo
 			Logger.w("Function already exists with this name (" + name + ")... Ignoring this call!");
 			return;
 		}
-		function.varNames = varNames;
+		function.vars = varNames;
 		sCustomFunctionMap.put(name, function);
 	}
 
@@ -58,6 +58,15 @@ public class Bingo
 			applicationContext = (Application) context.getApplicationContext();
 
 			initialized = true;
+
+			Bingo.hook("Show Toast", new BingoCustomFunction()
+			{
+				@Override
+				public String onCall(String[] objects)
+				{
+					return null;
+				}
+			}, "Toast Text");
 
 			new Thread(new Runnable()
 			{

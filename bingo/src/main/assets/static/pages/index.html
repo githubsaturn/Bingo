@@ -482,21 +482,31 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
-                                {% loop in $customFunctionNames as $actionName %}
+                                {% loop in $customFunctions as $func %}
 
                                 <div class="col-lg-3">
                                     <row>
-                                        <button class="btn btn-info">{$actionName}</button>
+                                        <button class="btn btn-info">{$func.name}</button>
                                     </row>
+                                    {% loop in $func.vars as $nameOfVar %}
                                     <row>
                                         <div class="form-group">
-                                            <label for="name" class="col-xs-2 control-label">Name</label>
+                                            <label for="name" class="col-xs-2 control-label">{$nameOfVar}</label>
                                             <div class="col-xs-10">
                                                 <input type="text" class="form-control col-sm-10" name="name" placeholder="param #1" />
                                             </div>
                                         </div>
                                     </row>
 
+                                    {% onEmpty %}
+                                    <row>
+                                        <div class="form-group">
+                                            <div class="col-xs-10">
+                                                <input type="text" class="form-control col-sm-10" name="name" placeholder="No Param" disabled/>
+                                            </div>
+                                        </div>
+                                    </row>
+                                    {% endloop %}
                                 </div>
                                 {% endloop %}
 

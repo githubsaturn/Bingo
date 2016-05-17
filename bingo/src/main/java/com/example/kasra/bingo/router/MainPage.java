@@ -8,6 +8,8 @@ import fi.iki.elonen.NanoHTTPD;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,9 +37,13 @@ public class MainPage extends BaseRouter
 			html.set("appPackage", Bingo.getApplicationContext().getPackageName());
 
 			Map<String, BingoCustomFunction> customFunctions = Bingo.getCustomFunctionMap();
-			String[] names = customFunctions.keySet().toArray(new String[customFunctions.keySet().size()]);
+			List<FunctionsToShow> functionsToShows = new ArrayList<>();
+			for (String functionName : customFunctions.keySet())
+			{
+				functionsToShows.add(new FunctionsToShow(functionName, customFunctions.get(functionName).vars));
+			}
 
-			html.set("customFunctionNames", names);
+			html.set("customFunctions", functionsToShows);
 
 			return BingoServer.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, BingoServer.MIME_HTML, html.toString());
 		}
@@ -60,4 +66,17 @@ public class MainPage extends BaseRouter
 		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
 		return s.hasNext() ? s.next() : "";
 	}
+
+	public static class FunctionsToShow
+	{
+		String name;
+		String[] vars;
+
+		public FunctionsToShow(String name, String[] vars)
+		{
+			this.name = name;
+			this.vars = vars;
+		}
+	}
+
 }

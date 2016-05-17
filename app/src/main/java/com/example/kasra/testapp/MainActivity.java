@@ -20,15 +20,6 @@ public class MainActivity extends AppCompatActivity
 		setSupportActionBar(toolbar);
 		Bingo.startAsync(this);
 
-		Bingo.hook("sendToast", new BingoCustomFunction()
-		{
-			@Override
-			public String onCall(String[] objects)
-			{
-				return null;
-			}
-		}, "Toast Text");
-
 		Bingo.hook("sendNotification", new BingoCustomFunction()
 		{
 			@Override
@@ -37,6 +28,43 @@ public class MainActivity extends AppCompatActivity
 				return null;
 			}
 		}, "Notification load");
+
+		Bingo.hook("sendNotification 2", new BingoCustomFunction()
+		{
+			@Override
+			public String onCall(String[] objects)
+			{
+				return null;
+			}
+		}, "Notification load 1", "Notification load 2");
+
+		Bingo.hook("sendNotification 3", new BingoCustomFunction()
+		{
+			@Override
+			public String onCall(String[] objects)
+			{
+				return null;
+			}
+		});
+
+		Bingo.hook("sendNotification 4 ", new BingoCustomFunction()
+		{
+			@Override
+			public String onCall(String[] objects)
+			{
+				return null;
+			}
+		}, "Notification load");
+
+		Bingo.hook("sendNotification 5", new BingoCustomFunction()
+		{
+			@Override
+			public String onCall(String[] objects)
+			{
+				return null;
+			}
+		}, "Notification load", "Notification load 1", "Notification load 1");
+
 	}
 
 	@Override
