@@ -8,6 +8,13 @@ body {
     background-color: #f8f8f8;
 }
 
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 #wrapper {
     width: 100%;
 }

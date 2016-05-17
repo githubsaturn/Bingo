@@ -484,30 +484,37 @@
                             <div class="row">
                                 {% loop in $customFunctions as $func %}
 
-                                <div class="col-lg-3">
+                                <div class="col-lg-4" style="margin-bottom:60px">
                                     <row>
-                                        <button class="btn btn-info">{$func.name}</button>
+                                        <button class="btn btn-success col-lg-10 col-lg-offset-1">{$func.name}</button>
                                     </row>
+
+                                    <div class="clearfix"></div>
                                     {% loop in $func.vars as $nameOfVar %}
-                                    <row>
+                                    <row class=c>
                                         <div class="form-group">
-                                            <label for="name" class="col-xs-2 control-label">{$nameOfVar}</label>
+                                            <label for="name" class="control-label col-lg-10 col-lg-offset-1">{$nameOfVar}</label>
                                             <div class="col-xs-10">
-                                                <input type="text" class="form-control col-sm-10" name="name" placeholder="param #1" />
+                                                <input type="text" class="form-control col-lg-10 col-lg-offset-1" name="name" placeholder="{$nameOfVar}" />
                                             </div>
                                         </div>
                                     </row>
 
+
+                                    <div class="clearfix"></div>
                                     {% onEmpty %}
                                     <row>
                                         <div class="form-group">
                                             <div class="col-xs-10">
-                                                <input type="text" class="form-control col-sm-10" name="name" placeholder="No Param" disabled/>
+                                                <input type="text" class="form-control col-lg-10 col-lg-offset-1" name="name" placeholder="No Param" disabled/>
                                             </div>
                                         </div>
                                     </row>
+
+                                    <div class="clearfix"></div>
                                     {% endloop %}
                                 </div>
+
                                 {% endloop %}
 
                             </div>
