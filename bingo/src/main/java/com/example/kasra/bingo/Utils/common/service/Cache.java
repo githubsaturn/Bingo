@@ -1,104 +1,84 @@
 package com.example.kasra.bingo.Utils.common.service;
 
+import com.example.kasra.bingo.Utils.common.entity.CacheObject;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.kasra.bingo.Utils.common.entity.CacheObject;
-
 /**
  * Cache interface
- * 
+ *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2011-12-23
  */
-public interface Cache<K, V> {
+public interface Cache<K, V>
+{
 
-    /**
-     * get object in cache
-     * 
-     * @return
-     */
-    public int getSize();
+	/**
+	 * get object in cache
+	 */
+	public int getSize();
 
-    /**
-     * get object
-     * 
-     * @param key
-     * @return
-     */
-    public CacheObject<V> get(K key);
+	/**
+	 * get object
+	 */
+	public CacheObject<V> get(K key);
 
-    /**
-     * put object
-     * 
-     * @param key key
-     * @param value data in object, {@link CacheObject#getData()}
-     * @return
-     */
-    public CacheObject<V> put(K key, V value);
+	/**
+	 * put object
+	 *
+	 * @param key   key
+	 * @param value data in object, {@link CacheObject#getData()}
+	 */
+	public CacheObject<V> put(K key, V value);
 
-    /**
-     * put object
-     * 
-     * @param key key
-     * @param value object
-     * @return
-     */
-    public CacheObject<V> put(K key, CacheObject<V> value);
+	/**
+	 * put object
+	 *
+	 * @param key   key
+	 * @param value object
+	 */
+	public CacheObject<V> put(K key, CacheObject<V> value);
 
-    /**
-     * put all object in cache2
-     * 
-     * @param cache2
-     */
-    public void putAll(Cache<K, V> cache2);
+	/**
+	 * put all object in cache2
+	 */
+	public void putAll(Cache<K, V> cache2);
 
-    /**
-     * whether key is in cache
-     * 
-     * @param key
-     * @return
-     */
-    public boolean containsKey(K key);
+	/**
+	 * whether key is in cache
+	 */
+	public boolean containsKey(K key);
 
-    /**
-     * remove object
-     * 
-     * @param key
-     * @return the object be removed
-     */
-    public CacheObject<V> remove(K key);
+	/**
+	 * remove object
+	 *
+	 * @return the object be removed
+	 */
+	public CacheObject<V> remove(K key);
 
-    /**
-     * clear cache
-     */
-    public void clear();
+	/**
+	 * clear cache
+	 */
+	public void clear();
 
-    /**
-     * get hit rate
-     * 
-     * @return
-     */
-    public double getHitRate();
+	/**
+	 * get hit rate
+	 */
+	public double getHitRate();
 
-    /**
-     * key set
-     * 
-     * @return
-     */
-    public Set<K> keySet();
+	/**
+	 * key set
+	 */
+	public Set<K> keySet();
 
-    /**
-     * key value set
-     * 
-     * @return
-     */
-    public Set<Map.Entry<K, CacheObject<V>>> entrySet();
+	/**
+	 * key value set
+	 */
+	public Set<Map.Entry<K, CacheObject<V>>> entrySet();
 
-    /**
-     * value set
-     * 
-     * @return
-     */
-    public Collection<CacheObject<V>> values();
+	/**
+	 * value set
+	 */
+	public Collection<CacheObject<V>> values();
 }

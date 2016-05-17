@@ -3,7 +3,7 @@ package com.example.kasra.bingo;
 import com.example.kasra.bingo.Utils.Logger;
 import com.example.kasra.bingo.router.BaseRouter;
 import com.example.kasra.bingo.router.DummyRouter;
-import com.example.kasra.bingo.router.MirrorDebug;
+import com.example.kasra.bingo.router.ReflectDebug;
 import com.example.kasra.bingo.router.StaticHtml;
 import fi.iki.elonen.NanoHTTPD;
 
@@ -31,7 +31,7 @@ public class BingoServer extends NanoHTTPD
 
 	static
 	{
-		routers.put(MirrorDebug.URI_BASE, new MirrorDebug());
+		routers.put(ReflectDebug.URI_BASE, new ReflectDebug());
 		routers.put(DummyRouter.URI_BASE, new DummyRouter());
 	}
 

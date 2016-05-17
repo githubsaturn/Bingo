@@ -5,33 +5,40 @@ import android.database.sqlite.SQLiteDatabase;
 
 /**
  * SqliteUtils
- * 
+ *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-10-21
  */
-public class SqliteUtils {
+public class SqliteUtils
+{
 
-    private static volatile SqliteUtils instance;
+	private static volatile SqliteUtils instance;
 
-    private DbHelper                    dbHelper;
-    private SQLiteDatabase              db;
+	private DbHelper dbHelper;
+	private SQLiteDatabase db;
 
-    private SqliteUtils(Context context) {
-        dbHelper = new DbHelper(context);
-        db = dbHelper.getWritableDatabase();
-    }
+	private SqliteUtils(Context context)
+	{
+		dbHelper = new DbHelper(context);
+		db = dbHelper.getWritableDatabase();
+	}
 
-    public static SqliteUtils getInstance(Context context) {
-        if (instance == null) {
-            synchronized (SqliteUtils.class) {
-                if (instance == null) {
-                    instance = new SqliteUtils(context);
-                }
-            }
-        }
-        return instance;
-    }
+	public static SqliteUtils getInstance(Context context)
+	{
+		if (instance == null)
+		{
+			synchronized (SqliteUtils.class)
+			{
+				if (instance == null)
+				{
+					instance = new SqliteUtils(context);
+				}
+			}
+		}
+		return instance;
+	}
 
-    public SQLiteDatabase getDb() {
-        return db;
-    }
+	public SQLiteDatabase getDb()
+	{
+		return db;
+	}
 }

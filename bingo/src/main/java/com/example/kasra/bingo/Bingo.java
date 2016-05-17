@@ -1,7 +1,7 @@
 package com.example.kasra.bingo;
 
 import android.app.Application;
-
+import android.content.Context;
 import com.example.kasra.bingo.Utils.Logger;
 import com.example.kasra.bingo.Utils.NetUtils;
 
@@ -12,71 +12,90 @@ import java.util.Random;
  * Created by Kasra on 3/14/2016.
  * Main Library class for Bingo
  */
-public class Bingo {
-    private static final int DEFAULT_PORT = 55555;
-    private static final Object locker = new Object();
-    private static final int MAX_ALLOWABLE_RETRY = 10;
+public class Bingo
+{
+	private static final int DEFAULT_PORT = 55555;
+	private static final Object locker = new Object();
+	private static final int MAX_ALLOWABLE_RETRY = 10;
 
-    static private BingoServer bingoServer;
-    static private boolean initialized;
+	static private BingoServer bingoServer;
+	static private boolean initialized;
 
-    private static Application applicationContext;
+	private static Application applicationContext;
 
-    public static void startAsync(Application application) {
+	public static void startAsync(Context context)
+	{
 
-        synchronized (locker) {
+		synchronized (locker)
+		{
 
-            if (initialized) {
-                Logger.log("Bingo already initialized... Ignoring this...");
-                return;
-            }
+			if (initialized)
+			{
+				Logger.log("Bingo already initialized... Ignoring this...");
+				return;
+			}
 
-            applicationContext = application;
+			applicationContext = (Application) context.getApplicationContext();
 
-            initialized = true;
+			initialized = true;
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    startNonAsync();
-                }
-            }).start();
+			new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					startNonAsync();
+				}
+			}).start();
 
-        }
-    }
+		}
+	}
 
-    static public Application getApplicationContext() {
-        return applicationContext;
-    }
+	static public Application getApplicationContext()
+	{
+		return applicationContext;
+	}
 
-    private static void startNonAsync() {
+	private static void startNonAsync()
+	{
+		int port = DEFAULT_PORT;
+		int counter = 0;
 
-        int port = DEFAULT_PORT;
-        int counter = 0;
+		while (bingoServer == null)
+		{
 
-        while (bingoServer == null) {
+			if (counter > MAX_ALLOWABLE_RETRY)
+			{
+				throw new RuntimeException("Cannot allocate a port after " + MAX_ALLOWABLE_RETRY + " tries...  Something is wrong...");
+			}
 
-            if (counter > MAX_ALLOWABLE_RETRY)
-                throw new RuntimeException("Cannot allocate a port after " + MAX_ALLOWABLE_RETRY + " tries...  Something is wrong...");
+			bingoServer = new BingoServer(port);
 
-            bingoServer = new BingoServer(port);
+			try
+			{
+				bingoServer.start(1000);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				try
+				{
+					bingoServer.stop();
+				}
+				catch (Exception ignore)
+				{
+				}
+				bingoServer = null;
+				port = new Random().nextInt(DEFAULT_PORT) + 10;
+			}
 
-            try {
-                bingoServer.start(1000);
-            } catch (IOException e) {
-                e.printStackTrace();
-                bingoServer.stop();
-                bingoServer = null;
-                port = new Random().nextInt(DEFAULT_PORT) + 10;
-            }
+			counter++;
+		}
 
-            counter++;
-        }
-
-        Logger.log(" -------------------------------------------------------------------------------------------------------");
-        Logger.log(" -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-. BINGO SERVER STARTED -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-. ");
-        Logger.log(" If your development machine and android device are on the same wifi: http://" + NetUtils.getIPAddress(true) + ":" + port);
-        Logger.log(" Otherwise, run \"adb forward tcp:" + port + " tcp:" + port + "\" in your terminal and then try http://127.0.0.1:" + port);
-        Logger.log(" -------------------------------------------------------------------------------------------------------");
-    }
+		Logger.log(" -------------------------------------------------------------------------------------------------------");
+		Logger.log(" -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-. BINGO SERVER STARTED -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-. ");
+		Logger.log(" If your development machine and android device are on the same wifi: http://" + NetUtils.getIPAddress(true) + ":" + port);
+		Logger.log(" Otherwise, run \"adb forward tcp:" + port + " tcp:" + port + "\" in your terminal and then try http://127.0.0.1:" + port);
+		Logger.log(" -------------------------------------------------------------------------------------------------------");
+	}
 }
