@@ -17,7 +17,7 @@ public class StaticHtml extends BaseRouter
 {
     public static final String URI_BASE = "/";
 
-	private static final String STATIC_FOLDER = "static/";
+	public static final String STATIC_FOLDER = "static/";
 
 	@Override
 	public NanoHTTPD.Response createResponse(NanoHTTPD.IHTTPSession session)

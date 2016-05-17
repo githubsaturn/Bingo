@@ -1,5 +1,6 @@
 package com.example.kasra.bingo.router;
 
+import com.x5.template.Theme;
 import fi.iki.elonen.NanoHTTPD;
 
 /**
@@ -9,4 +10,5 @@ import fi.iki.elonen.NanoHTTPD;
 public abstract class BaseRouter
 {
 	public abstract NanoHTTPD.Response createResponse(NanoHTTPD.IHTTPSession session);
+	protected Theme theme = new Theme();
 }

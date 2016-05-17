@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.kasra.bigdeli.bingo"
+        applicationId "com.kasra.bigdeli.test.bingo.app"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
