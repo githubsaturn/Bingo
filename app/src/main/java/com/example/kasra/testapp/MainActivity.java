@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.example.kasra.bingo.Bingo;
+import com.example.kasra.bingo.BingoCustomFunction;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -18,6 +19,24 @@ public class MainActivity extends AppCompatActivity
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		Bingo.startAsync(this);
+
+		Bingo.hook("sendToast", new BingoCustomFunction()
+		{
+			@Override
+			public String onCall(String[] objects)
+			{
+				return null;
+			}
+		}, "Toast Text");
+
+		Bingo.hook("sendNotification", new BingoCustomFunction()
+		{
+			@Override
+			public String onCall(String[] objects)
+			{
+				return null;
+			}
+		}, "Notification load");
 	}
 
 	@Override

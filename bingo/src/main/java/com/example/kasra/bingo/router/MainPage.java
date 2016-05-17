@@ -1,13 +1,14 @@
 package com.example.kasra.bingo.router;
 
 import com.example.kasra.bingo.Bingo;
+import com.example.kasra.bingo.BingoCustomFunction;
 import com.example.kasra.bingo.BingoServer;
 import com.x5.template.Chunk;
-import com.x5.template.Theme;
 import fi.iki.elonen.NanoHTTPD;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * Created by Kasra on 3/31/2016.
@@ -33,6 +34,11 @@ public class MainPage extends BaseRouter
 
 			html.set("appPackage", Bingo.getApplicationContext().getPackageName());
 
+			Map<String, BingoCustomFunction> customFunctions = Bingo.getCustomFunctionMap();
+			String[] names = customFunctions.keySet().toArray(new String[customFunctions.keySet().size()]);
+
+			html.set("customFunctionNames", names);
+
 			return BingoServer.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, BingoServer.MIME_HTML, html.toString());
 		}
 		catch (IOException e)
@@ -45,6 +51,7 @@ public class MainPage extends BaseRouter
 
 	/**
 	 * Perhaps the hackiest way that I've see to convert InputSteam to string!
+	 *
 	 * @param is input steam
 	 * @return string that is constructed using input stream
 	 */

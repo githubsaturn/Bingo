@@ -2,10 +2,12 @@ package com.example.kasra.bingo;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 import com.example.kasra.bingo.Utils.Logger;
 import com.example.kasra.bingo.Utils.NetUtils;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -18,10 +20,28 @@ public class Bingo
 	private static final Object locker = new Object();
 	private static final int MAX_ALLOWABLE_RETRY = 10;
 
-	static private BingoServer bingoServer;
-	static private boolean initialized;
-
+	private static BingoServer bingoServer;
+	private static boolean initialized;
 	private static Application applicationContext;
+
+	public static Map<String, BingoCustomFunction> getCustomFunctionMap()
+	{
+		return sCustomFunctionMap;
+	}
+
+	private static Map<String, BingoCustomFunction> sCustomFunctionMap = new ArrayMap<>();
+
+
+	public static void hook(String name, BingoCustomFunction function, String... varNames)
+	{
+		if (sCustomFunctionMap.keySet().contains(name))
+		{
+			Logger.w("Function already exists with this name (" + name + ")... Ignoring this call!");
+			return;
+		}
+		function.varNames = varNames;
+		sCustomFunctionMap.put(name, function);
+	}
 
 	public static void startAsync(Context context)
 	{

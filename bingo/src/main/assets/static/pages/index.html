@@ -482,9 +482,11 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
+                                {% loop in $customFunctionNames as $actionName %}
+
                                 <div class="col-lg-3">
                                     <row>
-                                        <button class="btn btn-info">Custom Action #1</button>
+                                        <button class="btn btn-info">{$actionName}</button>
                                     </row>
                                     <row>
                                         <div class="form-group">
@@ -496,15 +498,8 @@
                                     </row>
 
                                 </div>
-                                <div class="col-lg-3">
+                                {% endloop %}
 
-                                </div>
-                                <div class="col-lg-3">
-
-                                </div>
-                                <div class="col-lg-3">
-
-                                </div>
                             </div>
                             <!-- /.row -->
                         </div>
