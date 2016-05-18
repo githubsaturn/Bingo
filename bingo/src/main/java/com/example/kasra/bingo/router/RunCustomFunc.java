@@ -10,6 +10,7 @@ import fi.iki.elonen.NanoHTTPD;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Kasra on 3/31/2016.
@@ -38,6 +39,9 @@ public class RunCustomFunc extends BaseRouter
 				args[i] = params.get(method.vars[i]).get(0);
 			}
 
+			final StringBuilder sb = new StringBuilder();
+			final ReentrantLock lock = new ReentrantLock();
+			lock.lock();
 			try
 			{
 				new Handler(Looper.getMainLooper()).post(new Runnable()
@@ -46,6 +50,11 @@ public class RunCustomFunc extends BaseRouter
 					public void run()
 					{
 						String msg = method.onCall(args);
+						if (msg != null)
+						{
+							sb.append(msg);
+						}
+
 					}
 				});
 			}
@@ -53,8 +62,13 @@ public class RunCustomFunc extends BaseRouter
 			{
 				e.printStackTrace();
 			}
-			// TODO: 5/17/2016 ADD LOCK
-			return BingoServer.newFixedLengthResponse("");
+			finally
+			{
+				lock.unlock();
+			}
+			lock.lock();
+
+			return BingoServer.newFixedLengthResponse(sb.toString());
 		}
 		else
 		{

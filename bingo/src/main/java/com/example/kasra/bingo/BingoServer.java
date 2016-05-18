@@ -69,6 +69,7 @@ public class BingoServer extends NanoHTTPD
 		{
 			StringWriter errors = new StringWriter();
 			e.printStackTrace(new PrintWriter(errors));
+			e.printStackTrace();
 			return newFixedLengthResponse(Response.Status.BAD_REQUEST, NanoHTTPD.MIME_PLAINTEXT, errors.toString());
 		}
 	}

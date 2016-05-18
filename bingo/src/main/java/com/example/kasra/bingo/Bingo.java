@@ -2,7 +2,6 @@ package com.example.kasra.bingo;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 import com.example.kasra.bingo.Utils.Logger;
 import com.example.kasra.bingo.Utils.NetUtils;
@@ -61,15 +60,14 @@ public class Bingo
 
 			initialized = true;
 
-			Bingo.hook("ShowToast", new BingoCustomFunction()
+			Bingo.hook("Show Toast", new BingoCustomFunction()
 			{
 				@Override
 				public String onCall(String[] objects)
 				{
 					String msg = objects[0];
 					Toast.makeText(Bingo.applicationContext, msg, Toast.LENGTH_SHORT).show();
-					Log.d("____________", msg);
-					return "";
+					return "Success";
 				}
 			}, "ToastText");
 
