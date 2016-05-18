@@ -1,10 +1,13 @@
 package com.example.kasra.bingo.router;
 
+import android.util.Log;
 import com.example.kasra.bingo.Bingo;
 import com.example.kasra.bingo.BingoCustomFunction;
 import com.example.kasra.bingo.BingoServer;
+import com.example.kasra.bingo.Utils.common.util.IOUtils;
 import fi.iki.elonen.NanoHTTPD;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,14 +25,16 @@ public class RunCustomFunc extends BaseRouter
 
 		if (session.getMethod().equals(BingoServer.Method.POST))
 		{
-			Map<String, String> params = session.getParms();
-			String customMethodName = params.get("methodname");
+			String rawInput = IOUtils.convertStreamToString(session.getInputStream());
+			Map<String, List<String>> params = BingoServer.decodeQueryParams(rawInput);
+
+			String customMethodName = params.get("methodname").get(0);
 			BingoCustomFunction method = Bingo.getCustomFunctionMap().get(customMethodName);
 			int numberOfParams = method.vars.length;
 			String[] args = new String[numberOfParams];
 			for (int i = 0; i < args.length; i++)
 			{
-				args[i] = params.get("param" + i);
+				args[i] = params.get(method.vars[i]).get(0);
 			}
 			return BingoServer.newFixedLengthResponse(method.onCall(args));
 		}

@@ -57,5 +57,16 @@ public class IOUtils
 			}
 		}
 	}
+	/**
+	 * Perhaps the hackiest way that I've see to convert InputSteam to string!
+	 *
+	 * @param is input steam
+	 * @return string that is constructed using input stream
+	 */
+	static public String convertStreamToString(java.io.InputStream is)
+	{
+		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
+	}
 
 }

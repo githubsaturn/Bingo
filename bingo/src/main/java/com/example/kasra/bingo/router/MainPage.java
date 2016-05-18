@@ -3,6 +3,7 @@ package com.example.kasra.bingo.router;
 import com.example.kasra.bingo.Bingo;
 import com.example.kasra.bingo.BingoCustomFunction;
 import com.example.kasra.bingo.BingoServer;
+import com.example.kasra.bingo.Utils.common.util.IOUtils;
 import com.x5.template.Chunk;
 import fi.iki.elonen.NanoHTTPD;
 
@@ -11,6 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Kasra on 3/31/2016.
@@ -29,7 +31,7 @@ public class MainPage extends BaseRouter
 		{
 			InputStream reader = Bingo.getApplicationContext().getAssets().open(
 					StaticHtml.STATIC_FOLDER.substring(0, StaticHtml.STATIC_FOLDER.length() - 1) + URI_BASE);
-			String rawData = convertStreamToString(reader);
+			String rawData = IOUtils.convertStreamToString(reader);
 
 			Chunk html = theme.makeChunk();
 			html.append(rawData);
@@ -55,21 +57,10 @@ public class MainPage extends BaseRouter
 	}
 
 
-	/**
-	 * Perhaps the hackiest way that I've see to convert InputSteam to string!
-	 *
-	 * @param is input steam
-	 * @return string that is constructed using input stream
-	 */
-	static private String convertStreamToString(java.io.InputStream is)
-	{
-		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
-	}
-
 	public static class FunctionsToShow
 	{
 		String name;
+		String uuid = "UUID" + UUID.randomUUID().toString();
 		String[] vars;
 
 		public FunctionsToShow(String name, String[] vars)

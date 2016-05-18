@@ -486,16 +486,16 @@
 
                                 <div class="col-lg-4" style="margin-bottom:60px">
                                     <row>
-                                        <button class="btn btn-success col-lg-10 col-lg-offset-1">{$func.name}</button>
+                                        <button class="btn btn-success col-lg-10 col-lg-offset-1" onclick="customFunctionClicked('{$func.name}', '{$func.uuid}')">{$func.name}</button>
                                     </row>
 
                                     <div class="clearfix"></div>
                                     {% loop in $func.vars as $nameOfVar %}
-                                    <row class=c>
+                                    <row>
                                         <div class="form-group">
                                             <label for="name" class="control-label col-lg-10 col-lg-offset-1">{$nameOfVar}</label>
                                             <div class="col-xs-10">
-                                                <input type="text" class="form-control col-lg-10 col-lg-offset-1" name="name" placeholder="{$nameOfVar}" />
+                                                <input type="text" id='{$func.uuid}-{$nameOfVar}' class="form-control col-lg-10 col-lg-offset-1" name="name" placeholder="{$nameOfVar}" />
                                             </div>
                                         </div>
                                     </row>
@@ -607,6 +607,7 @@
     <script src="../bower_components/raphael/raphael-min.js"></script>
     <script src="../bower_components/morrisjs/morris.min.js"></script>
     <script src="../js/morris-data.js"></script>
+    <script src="../js/main.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

@@ -68,7 +68,7 @@ public class Bingo
 					Toast.makeText(Bingo.applicationContext, objects[0], Toast.LENGTH_SHORT).show();
 					return "";
 				}
-			}, "Toast Text");
+			}, "ToastText");
 
 			new Thread(new Runnable()
 			{
