@@ -2,6 +2,7 @@ package com.example.kasra.bingo;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import com.example.kasra.bingo.Utils.Logger;
 import com.example.kasra.bingo.Utils.NetUtils;
@@ -65,7 +66,9 @@ public class Bingo
 				@Override
 				public String onCall(String[] objects)
 				{
-					Toast.makeText(Bingo.applicationContext, objects[0], Toast.LENGTH_SHORT).show();
+					String msg = objects[0];
+					Toast.makeText(Bingo.applicationContext, msg, Toast.LENGTH_SHORT).show();
+					Log.d("____________", msg);
 					return "";
 				}
 			}, "ToastText");

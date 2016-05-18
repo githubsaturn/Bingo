@@ -1,6 +1,7 @@
 package com.example.kasra.bingo.router;
 
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import com.example.kasra.bingo.Bingo;
 import com.example.kasra.bingo.BingoCustomFunction;
 import com.example.kasra.bingo.BingoServer;
@@ -29,14 +30,31 @@ public class RunCustomFunc extends BaseRouter
 			Map<String, List<String>> params = BingoServer.decodeQueryParams(rawInput);
 
 			String customMethodName = params.get("methodname").get(0);
-			BingoCustomFunction method = Bingo.getCustomFunctionMap().get(customMethodName);
+			final BingoCustomFunction method = Bingo.getCustomFunctionMap().get(customMethodName);
 			int numberOfParams = method.vars.length;
-			String[] args = new String[numberOfParams];
+			final String[] args = new String[numberOfParams];
 			for (int i = 0; i < args.length; i++)
 			{
 				args[i] = params.get(method.vars[i]).get(0);
 			}
-			return BingoServer.newFixedLengthResponse(method.onCall(args));
+
+			try
+			{
+				new Handler(Looper.getMainLooper()).post(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						String msg = method.onCall(args);
+					}
+				});
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			// TODO: 5/17/2016 ADD LOCK
+			return BingoServer.newFixedLengthResponse("");
 		}
 		else
 		{
