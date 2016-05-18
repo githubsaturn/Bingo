@@ -10,7 +10,7 @@ import fi.iki.elonen.NanoHTTPD;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by Kasra on 3/31/2016.
@@ -40,8 +40,17 @@ public class RunCustomFunc extends BaseRouter
 			}
 
 			final StringBuilder sb = new StringBuilder();
-			final ReentrantLock lock = new ReentrantLock();
-			lock.lock();
+			final Semaphore lock = new Semaphore(1);
+
+			try
+			{
+				lock.acquire();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
 			try
 			{
 				new Handler(Looper.getMainLooper()).post(new Runnable()
@@ -64,9 +73,17 @@ public class RunCustomFunc extends BaseRouter
 			}
 			finally
 			{
-				lock.unlock();
+				lock.release();
 			}
-			lock.lock();
+
+			try
+			{
+				lock.acquire();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 
 			return BingoServer.newFixedLengthResponse(sb.toString());
 		}
